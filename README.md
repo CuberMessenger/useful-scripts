@@ -1,2 +1,2 @@
 ## Useful python scripts
-One day I suddenly decided to move these useful little tools from onedrive to github.
+I suddenly realized that these long-lived scripts are better suited for a repository than for OneDrive.
