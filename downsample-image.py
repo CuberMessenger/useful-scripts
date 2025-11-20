@@ -10,6 +10,7 @@ def scale_length(length, scale_factor):
 def downsample_image(input_path, output_path, scale_factor, quality):
     image = Image.open(input_path)
     image = ImageOps.exif_transpose(image)
+    image = image.convert("RGB")
     width, height = image.size
 
     image = image.resize(
