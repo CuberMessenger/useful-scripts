@@ -68,7 +68,7 @@ def images_to_pdf(image_paths, pdf_path):
             width = max_width
             height = int(round(height * ratio))
 
-            image = image.resize((width, height), Image.ANTIALIAS)
+            image = image.resize((width, height), Image.Resampling.LANCZOS)
 
         pdf.add_page(format=(width, height), orientation="P")
         pdf.image(image, x=0, y=0, w=width, h=height)
