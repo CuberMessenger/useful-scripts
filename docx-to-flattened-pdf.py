@@ -90,7 +90,7 @@ def flatten_pdf(input_pdf, output_pdf, dpi=200, owner_pw="admin"):
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: flatten_word.exe <path_to_word_doc>")
+        print("Usage: flatten_word.exe <path_to_word_doc_or_pdf>")
         sys.exit(1)
 
     input_file = os.path.abspath(sys.argv[1])
@@ -99,9 +99,7 @@ if __name__ == "__main__":
         print(f"Error: File not found: {input_file}")
         sys.exit(1)
 
-    base_path = os.path.splitext(input_file)[0]
-    temp_pdf = f"{base_path}_temp.pdf"
-    final_pdf = f"{base_path}.pdf"
+    base_path, ext = os.path.splitext(input_file)
     
     # ---------------------------------------------------------
     # SET YOUR OWNER PASSWORD HERE
@@ -110,11 +108,18 @@ if __name__ == "__main__":
     # ---------------------------------------------------------
     SECURE_PASSWORD = generate_password_from_filename(input_file, length=40)
 
-    convert_word_to_pdf(input_file, temp_pdf)
-    flatten_pdf(temp_pdf, final_pdf, dpi=200, owner_pw=SECURE_PASSWORD)
+    if ext.lower() == '.pdf':
+        final_pdf = f"{base_path}_flattened.pdf"
+        flatten_pdf(input_file, final_pdf, dpi=200, owner_pw=SECURE_PASSWORD)
+    else:
+        temp_pdf = f"{base_path}_temp.pdf"
+        final_pdf = f"{base_path}.pdf"
+        
+        convert_word_to_pdf(input_file, temp_pdf)
+        flatten_pdf(temp_pdf, final_pdf, dpi=200, owner_pw=SECURE_PASSWORD)
 
-    if os.path.exists(temp_pdf):
-        os.remove(temp_pdf)
+        if os.path.exists(temp_pdf):
+            os.remove(temp_pdf)
         
     print("Process complete!")
 
