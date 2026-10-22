@@ -1,0 +1,1 @@
+$f = @(Get-ChildItem -File | Sort-Object { Get-Random }); $i = 1; $f | ForEach-Object { Rename-Item -LiteralPath $_.FullName -NewName ("{0}_{1}" -f ($i++).ToString().PadLeft("$($f.Count)".Length, '0'), $_.Name) }
